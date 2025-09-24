@@ -83,51 +83,23 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 4px;
-    text-shadow: 
-        0 0 5px currentColor,
-        0 0 10px currentColor,
-        0 0 15px currentColor,
-        0 0 20px currentColor;
-    animation: neonPulse 2s ease-in-out infinite alternate;
-    -webkit-text-stroke: 1px currentColor;
-    text-stroke: 1px currentColor;
+    text-shadow: 0 0 10px currentColor;
 }
 
 /* Neon Text Effects */
 .neon-text {
     color: #00ffff;
-    text-shadow: 
-        0 0 5px #00ffff,
-        0 0 10px #00ffff,
-        0 0 15px #00ffff,
-        0 0 20px #00ffff,
-        0 0 35px #00ffff,
-        0 0 40px #00ffff;
-    animation: neonPulseCyan 1.5s ease-in-out infinite alternate;
+    text-shadow: 0 0 10px #00ffff;
 }
 
 .neon-text-pink {
     color: #ff0080;
-    text-shadow: 
-        0 0 5px #ff0080,
-        0 0 10px #ff0080,
-        0 0 15px #ff0080,
-        0 0 20px #ff0080,
-        0 0 35px #ff0080,
-        0 0 40px #ff0080;
-    animation: neonPulsePink 1.5s ease-in-out infinite alternate;
+    text-shadow: 0 0 10px #ff0080;
 }
 
 .neon-text-cyan {
     color: #00ffff;
-    text-shadow: 
-        0 0 5px #00ffff,
-        0 0 10px #00ffff,
-        0 0 15px #00ffff,
-        0 0 20px #00ffff,
-        0 0 35px #00ffff,
-        0 0 40px #00ffff;
-    animation: neonPulseCyan 1.5s ease-in-out infinite alternate;
+    text-shadow: 0 0 10px #00ffff;
 }
 
 @keyframes neonPulseCyan {
@@ -233,15 +205,8 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
     letter-spacing: 4px;
     color: #00ffff;
-    text-shadow: 
-        0 0 5px #00ffff,
-        0 0 10px #00ffff,
-        0 0 15px #00ffff,
-        0 0 20px #00ffff;
+    text-shadow: 0 0 10px #00ffff;
     margin-bottom: -0.2rem;
-    animation: neonPulseCyan 2s ease-in-out infinite alternate;
-    -webkit-text-stroke: 1px #00ffff;
-    text-stroke: 1px #00ffff;
 }
 
 .logo-subtitle {
@@ -250,14 +215,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
     letter-spacing: 3px;
     color: #ff0080;
-    text-shadow: 
-        0 0 5px #ff0080,
-        0 0 10px #ff0080,
-        0 0 15px #ff0080,
-        0 0 20px #ff0080;
-    animation: neonPulsePink 2s ease-in-out infinite alternate;
-    -webkit-text-stroke: 1px #ff0080;
-    text-stroke: 1px #ff0080;
+    text-shadow: 0 0 10px #ff0080;
 }
 
 .nav-links {
@@ -363,13 +321,8 @@ h1, h2, h3, h4, h5, h6 {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradientShift 3s ease-in-out infinite, neonPulse 2s ease-in-out infinite alternate;
-    text-shadow: 
-        0 0 10px rgba(0, 255, 255, 0.5),
-        0 0 20px rgba(255, 0, 128, 0.5),
-        0 0 30px rgba(0, 255, 255, 0.3);
-    -webkit-text-stroke: 2px rgba(0, 255, 255, 0.3);
-    text-stroke: 2px rgba(0, 255, 255, 0.3);
+    animation: gradientShift 3s ease-in-out infinite;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .hero-subtitle {
@@ -506,14 +459,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
     letter-spacing: 5px;
     color: #00ffff;
-    text-shadow: 
-        0 0 5px #00ffff,
-        0 0 10px #00ffff,
-        0 0 15px #00ffff,
-        0 0 20px #00ffff;
-    animation: neonPulseCyan 2.5s ease-in-out infinite alternate;
-    -webkit-text-stroke: 1px #00ffff;
-    text-stroke: 1px #00ffff;
+    text-shadow: 0 0 10px #00ffff;
 }
 
 .welcome-content {
@@ -1152,10 +1098,7 @@ h1, h2, h3, h4, h5, h6 {
     .hero-title {
         font-size: 2.5rem;
         line-height: 1.2;
-        -webkit-text-stroke: 0.5px rgba(0, 255, 255, 0.3);
-        text-stroke: 0.5px rgba(0, 255, 255, 0.3);
-        text-shadow: 
-            0 0 2px rgba(0, 255, 255, 0.2);
+        text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
     }
     
     .about-content, .coach-content, .contact-content, .location-content {
@@ -1216,10 +1159,7 @@ h1, h2, h3, h4, h5, h6 {
     .hero-title {
         font-size: 2rem;
         line-height: 1.1;
-        -webkit-text-stroke: 0.3px rgba(0, 255, 255, 0.2);
-        text-stroke: 0.3px rgba(0, 255, 255, 0.2);
-        text-shadow: 
-            0 0 1px rgba(0, 255, 255, 0.1);
+        text-shadow: 0 0 3px rgba(0, 255, 255, 0.2);
     }
     
     .hero-subtitle {
@@ -1228,10 +1168,7 @@ h1, h2, h3, h4, h5, h6 {
     
     .section-title {
         font-size: 2rem;
-        -webkit-text-stroke: 0.3px #00ffff;
-        text-stroke: 0.3px #00ffff;
-        text-shadow: 
-            0 0 1px #00ffff;
+        text-shadow: 0 0 5px #00ffff;
     }
     
     .stat-number {
