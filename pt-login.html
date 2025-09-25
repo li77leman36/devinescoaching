@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PT Login - Divines Coaching | Personal Trainer Access</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Electrolize&family=Audiowide&display=swap" rel="stylesheet">
+    <style>
+        /* PT Login-specific styles */
+        .pt-login-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .pt-login-container {
+            max-width: 450px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 0, 128, 0.3);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            box-shadow: 0 0 30px rgba(255, 0, 128, 0.2);
+            backdrop-filter: blur(15px);
+        }
+
+        .pt-login-title {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            color: #ff0080;
+            text-shadow: 0 0 15px #ff0080;
+            font-family: 'Electrolize', sans-serif;
+            letter-spacing: 3px;
+        }
+
+        .pt-badge-large {
+            display: block;
+            text-align: center;
+            background: linear-gradient(45deg, #ff0080, #00ffff);
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin: 0 auto 2rem auto;
+            width: fit-content;
+        }
+
+        .pt-login-subtitle {
+            text-align: center;
+            color: #cccccc;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .pt-form-group {
+            margin-bottom: 2rem;
+        }
+
+        .pt-form-label {
+            display: block;
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .pt-form-input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 0, 128, 0.05);
+            border: 1px solid rgba(255, 0, 128, 0.3);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-family: 'Rajdhani', sans-serif;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .pt-form-input:focus {
+            outline: none;
+            border-color: #ff0080;
+            background: rgba(255, 0, 128, 0.1);
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.3);
+        }
+
+        .pt-form-input::placeholder {
+            color: #888888;
+        }
+
+        .pt-login-button {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(45deg, #ff0080, #00ffff);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.5);
+        }
+
+        .pt-login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(255, 0, 128, 0.8);
+        }
+
+        .pt-login-button:active {
+            transform: translateY(0);
+        }
+
+        .pt-login-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .pt-login-button:disabled:hover {
+            transform: none;
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.5);
+        }
+
+        .client-login-link {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 0, 128, 0.2);
+        }
+
+        .client-login-link a {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .client-login-link a:hover {
+            color: #ff0080;
+            text-shadow: 0 0 10px #ff0080;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .pt-login-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .pt-login-title {
+                font-size: 2rem;
+            }
+
+            .pt-login-subtitle {
+                font-size: 1rem;
+            }
+
+            .form-group {
+                margin-bottom: 1.2rem;
+            }
+
+            .form-label {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .form-input {
+                padding: 0.8rem;
+                font-size: 1rem;
+            }
+
+            .pt-login-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            .pt-login-section {
+                padding: 1rem;
+            }
+
+            .client-login-link {
+                margin-top: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pt-login-container {
+                margin: 0.5rem;
+                padding: 1rem;
+            }
+
+            .pt-login-title {
+                font-size: 1.8rem;
+            }
+
+            .pt-login-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .form-input {
+                padding: 0.7rem;
+                font-size: 0.9rem;
+            }
+
+            .pt-login-button {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-background"></div>
+    
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <h1 class="logo-text">DIVINES</h1>
+                <span class="logo-subtitle">COACHING</span>
+            </div>
+            
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger" id="hamburger">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            
+            <!-- Navigation Links -->
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link">HOME</a>
+                <a href="about.html" class="nav-link">ABOUT</a>
+                <a href="expertise.html" class="nav-link">EXPERTISE</a>
+                <a href="coach.html" class="nav-link">COACH</a>
+                <a href="index.html#contact" class="nav-link">CONTACT</a>
+                <a href="login.html" class="nav-link">CLIENT LOGIN</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="pt-login-section">
+            <div class="pt-login-container">
+                <h2 class="pt-login-title">PT LOGIN</h2>
+                <span class="pt-badge-large">PERSONAL TRAINER</span>
+                <p class="pt-login-subtitle">Access your personal trainer dashboard to manage clients and track progress</p>
+                
+                <div class="error-message" id="error-message" style="display: none;"></div>
+                <div class="success-message" id="success-message" style="display: none;"></div>
+                
+                <form id="pt-login-form">
+                    <div class="pt-form-group">
+                        <label for="pt-email" class="pt-form-label">EMAIL ADDRESS</label>
+                        <input type="email" id="pt-email" name="email" class="pt-form-input" placeholder="Enter your PT email" required>
+                    </div>
+                    
+                    <div class="pt-form-group">
+                        <label for="pt-password" class="pt-form-label">PASSWORD</label>
+                        <input type="password" id="pt-password" name="password" class="pt-form-input" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <div class="remember-forgot">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="pt-remember" class="checkbox">
+                            <label for="pt-remember" class="checkbox-label">Remember me</label>
+                        </div>
+                        <a href="#" class="forgot-link">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="pt-login-button">PT LOGIN</button>
+                </form>
+                
+                
+                <div class="client-login-link">
+                    <p>Are you a client? <a href="login.html">Client Login Here</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h4>DIVINES COACHING</h4>
+                    <p>Transform Your Fitness. Transform Yourself.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html" class="footer-link">HOME</a>
+                    <a href="about.html" class="footer-link">ABOUT</a>
+                    <a href="expertise.html" class="footer-link">EXPERTISE</a>
+                    <a href="coach.html" class="footer-link">COACH</a>
+                    <a href="index.html#contact" class="footer-link">CONTACT</a>
+                    <a href="pt-login.html" class="footer-link">PT LOGIN</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAqmII6xw9zVXmBYK4sYQXM0d8LSC8tJ9A",
+            authDomain: "ptapp-f4b4d.firebaseapp.com",
+            projectId: "ptapp-f4b4d",
+            storageBucket: "ptapp-f4b4d.firebasestorage.app",
+            messagingSenderId: "360387400618",
+            appId: "1:360387400618:web:5e23bf828abfb4d76911d3",
+            measurementId: "G-6RBWTHBYX1"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const analytics = getAnalytics(app);
+
+        // Check if user is already logged in as PT - show appropriate UI
+        onAuthStateChanged(auth, async (user) => {
+            console.log('PT Login - Auth state changed:', user ? 'User logged in' : 'User not logged in');
+            
+            // Check if we're coming from a logout - if so, show login form regardless
+            const isFromLogout = sessionStorage.getItem('fromLogout');
+            if (isFromLogout) {
+                console.log('PT Login - Coming from logout, showing login form');
+                // Keep the flag for longer to handle multiple logout cycles
+                setTimeout(() => {
+                    sessionStorage.removeItem('fromLogout');
+                }, 5000);
+                document.getElementById('pt-login-form').style.display = 'block';
+                document.getElementById('success-message').style.display = 'none';
+                return;
+            }
+            
+            // Also check if we're in a logout state (no user but fromLogout flag exists)
+            if (!user && sessionStorage.getItem('fromLogout')) {
+                console.log('PT Login - No user but logout flag exists, showing login form');
+                document.getElementById('pt-login-form').style.display = 'block';
+                document.getElementById('success-message').style.display = 'none';
+                return;
+            }
+            
+            // Additional check: if no user and no session data, show login form
+            if (!user && !sessionStorage.getItem('userEmail')) {
+                console.log('PT Login - No user and no session data, showing login form');
+                document.getElementById('pt-login-form').style.display = 'block';
+                document.getElementById('success-message').style.display = 'none';
+                return;
+            }
+            
+            if (user) {
+                console.log('PT Login - User details:', {
+                    email: user.email,
+                    uid: user.uid,
+                    displayName: user.displayName
+                });
+                
+                // Store user info in sessionStorage
+                sessionStorage.setItem('userEmail', user.email);
+                sessionStorage.setItem('userUID', user.uid);
+                sessionStorage.setItem('isLoggedIn', 'true');
+                
+                // Check user's current role
+                let userRole = 'Unknown';
+                let consoleUrl = 'pt-console.html';
+                
+                try {
+                    // Check if user is a PT
+                    const ptDocRef = doc(db, 'pt', user.uid);
+                    const ptDoc = await getDoc(ptDocRef);
+                    
+                    if (ptDoc.exists()) {
+                        userRole = 'Personal Trainer';
+                        consoleUrl = 'pt-console.html';
+                        sessionStorage.setItem('isPT', 'true');
+                    } else {
+                        // Check if user is a client
+                        const clientDocRef = doc(db, 'clients', user.uid);
+                        const clientDoc = await getDoc(clientDocRef);
+                        
+                        if (clientDoc.exists()) {
+                            userRole = 'Client';
+                            consoleUrl = 'console.html';
+                            sessionStorage.setItem('isPT', 'false');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error checking user role:', error);
+                }
+                
+                // Hide login form and show "already logged in" message
+                document.getElementById('pt-login-form').style.display = 'none';
+                document.getElementById('success-message').style.display = 'block';
+                document.getElementById('success-message').innerHTML = `
+                    <div style="text-align: center; padding: 2rem; background: rgba(255, 0, 128, 0.1); border: 1px solid rgba(255, 0, 128, 0.3); border-radius: 10px; margin: 2rem 0;">
+                        <h3 style="color: #ff0080; margin-bottom: 1rem;">Already Logged In</h3>
+                        <p style="color: #cccccc; margin-bottom: 0.5rem;">You are already logged in as: <strong style="color: #ff0080;">${user.email}</strong></p>
+                        <p style="color: #cccccc; margin-bottom: 1.5rem;">Role: <strong style="color: #ff0080;">${userRole}</strong></p>
+                        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                            <button onclick="window.location.href='${consoleUrl}'" style="background: linear-gradient(45deg, #ff0080, #00ffff); border: none; padding: 0.8rem 1.5rem; border-radius: 8px; color: #000; font-weight: 700; cursor: pointer;">GO TO ${userRole.toUpperCase()} CONSOLE</button>
+                        </div>
+                        <p style="color: #888; font-size: 0.9rem; margin-top: 1rem;">To switch roles, please logout first and login with the appropriate account.</p>
+                    </div>
+                `;
+                
+                console.log('PT Login - User logged in as', userRole, ', showing console options');
+            } else {
+                console.log('PT Login - No user found, showing login form');
+                
+                // Clear all session data
+                sessionStorage.removeItem('isLoggedIn');
+                sessionStorage.removeItem('isPT');
+                sessionStorage.removeItem('userEmail');
+                sessionStorage.removeItem('userUID');
+                
+                // Show login form and hide success message
+                document.getElementById('pt-login-form').style.display = 'block';
+                document.getElementById('success-message').style.display = 'none';
+            }
+        });
+
+        // PT Login form handling
+        document.getElementById('pt-login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('pt-email').value;
+            const password = document.getElementById('pt-password').value;
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+            const loginButton = document.querySelector('.pt-login-button');
+            
+            // Hide previous messages
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // Basic validation
+            if (!email || !password) {
+                errorMessage.textContent = 'Please fill in all fields';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            if (!email.includes('@')) {
+                errorMessage.textContent = 'Please enter a valid email address';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Disable login button and show loading state
+            loginButton.disabled = true;
+            loginButton.textContent = 'CHECKING PT STATUS...';
+            
+            try {
+                // Sign in with Firebase
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                console.log('PT Login - User signed in successfully:', user.email);
+                
+                // Check if user exists in PT collection
+                const ptDocRef = doc(db, 'pt', user.uid);
+                const ptDoc = await getDoc(ptDocRef);
+                
+                if (ptDoc.exists()) {
+                    console.log('PT Login - User is confirmed as PT:', ptDoc.data());
+                    
+                    // Store PT info in sessionStorage
+                    sessionStorage.setItem('userEmail', user.email);
+                    sessionStorage.setItem('userUID', user.uid);
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('isPT', 'true');
+                    
+                    // Show success message
+                    successMessage.textContent = 'PT login successful! Redirecting to dashboard...';
+                    successMessage.style.display = 'block';
+                    
+                    // Redirect to PT console
+                    setTimeout(() => {
+                        window.location.href = 'pt-console.html';
+                    }, 1500);
+                } else {
+                    console.log('PT Login - User is not a PT, redirecting to client login');
+                    
+                    // Sign out the user since they're not a PT
+                    await auth.signOut();
+                    
+                    // Show message and redirect
+                    errorMessage.textContent = 'Account not found in PT database. Redirecting to client login...';
+                    errorMessage.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                }
+                
+            } catch (error) {
+                console.error('PT Login - Error signing in:', error);
+                
+                // Re-enable login button
+                loginButton.disabled = false;
+                loginButton.textContent = 'PT LOGIN';
+                
+                // Show error message based on Firebase error code
+                let errorText = 'Login failed. Please try again.';
+                
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorText = 'No account found with this email address.';
+                        break;
+                    case 'auth/wrong-password':
+                        errorText = 'Incorrect password. Please try again.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorText = 'Please enter a valid email address.';
+                        break;
+                    case 'auth/user-disabled':
+                        errorText = 'This account has been disabled.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorText = 'Too many failed attempts. Please try again later.';
+                        break;
+                    case 'auth/network-request-failed':
+                        errorText = 'Network error. Please check your connection.';
+                        break;
+                    default:
+                        errorText = error.message;
+                }
+                
+                errorMessage.textContent = errorText;
+                errorMessage.style.display = 'block';
+            }
+        });
+
+
+        // Make auth available globally for debugging
+        window.ptAuth = auth;
+        window.ptDb = db;
+    </script>
+
+    <script src="script.js"></script>
+    <script>
+        // Additional PT login page functionality (non-Firebase)
+        
+        // Add form input animations
+        const formInputs = document.querySelectorAll('.pt-form-input');
+        formInputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-2px)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Add typing effect to PT login title
+        const ptLoginTitle = document.querySelector('.pt-login-title');
+        if (ptLoginTitle) {
+            const originalText = ptLoginTitle.textContent;
+            ptLoginTitle.textContent = '';
+            
+            let i = 0;
+            const typeWriter = () => {
+                if (i < originalText.length) {
+                    ptLoginTitle.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 150);
+                }
+            };
+            
+            setTimeout(typeWriter, 500);
+        }
+    </script>
+</body>
+</html>

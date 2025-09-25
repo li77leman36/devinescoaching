@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Console - Divines Coaching | Client Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Electrolize&family=Audiowide&display=swap" rel="stylesheet">
+    <style>
+        /* Console-specific styles */
+        .console-section {
+            min-height: 100vh;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .console-header {
+            max-width: 1200px;
+            margin: 0 auto 3rem auto;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(15px);
+        }
+
+        .welcome-info h2 {
+            color: #00ffff;
+            text-shadow: 0 0 15px #00ffff;
+            font-family: 'Electrolize', sans-serif;
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-info p {
+            color: #cccccc;
+            font-size: 1.1rem;
+        }
+
+        .user-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-greeting {
+            color: #ff0080;
+            text-shadow: 0 0 10px #ff0080;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .logout-button {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, #ff0080, #00ffff);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 0, 128, 0.4);
+        }
+
+        .logout-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(255, 0, 128, 0.7);
+        }
+
+        .dashboard-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .dashboard-card {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(15px);
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            border-color: #00ffff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+            font-family: 'Electrolize', sans-serif;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .card-content {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-family: 'Orbitron', monospace;
+            font-weight: 900;
+            color: #ff0080;
+            text-shadow: 0 0 10px #ff0080;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #cccccc;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.8rem 1.5rem;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            border-radius: 8px;
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .action-btn:hover {
+            background: rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .recent-activity {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .activity-icon {
+            font-size: 1.5rem;
+            color: #ff0080;
+        }
+
+        .activity-text {
+            flex: 1;
+        }
+
+        .activity-date {
+            font-size: 0.9rem;
+            color: #888888;
+        }
+
+        .loading-indicator {
+            text-align: center;
+            padding: 2rem;
+            color: #00ffff;
+            font-size: 1.1rem;
+        }
+
+        .error-message {
+            background: rgba(255, 0, 128, 0.1);
+            border: 1px solid rgba(255, 0, 128, 0.3);
+            color: #ff0080;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .console-header {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+                padding: 1.5rem;
+            }
+
+            .user-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .dashboard-card {
+                padding: 1.5rem;
+            }
+
+            .quick-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.8rem;
+            }
+
+            .stat-box {
+                padding: 0.8rem;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .action-btn {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .recent-activity {
+                max-height: 250px;
+            }
+
+            .activity-item {
+                padding: 0.8rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .activity-icon {
+                font-size: 1.2rem;
+            }
+
+            .console-section {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .console-header {
+                padding: 1rem;
+            }
+
+            .dashboard-card {
+                padding: 1rem;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .quick-stats {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .stat-number {
+                font-size: 1.3rem;
+            }
+
+            .action-btn {
+                padding: 0.7rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .activity-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .activity-text {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-background"></div>
+    
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <h1 class="logo-text">DIVINES</h1>
+                <span class="logo-subtitle">COACHING</span>
+            </div>
+            
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger" id="hamburger">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            
+            <!-- Navigation Links -->
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link">HOME</a>
+                <a href="about.html" class="nav-link">ABOUT</a>
+                <a href="expertise.html" class="nav-link">EXPERTISE</a>
+                <a href="coach.html" class="nav-link">COACH</a>
+                <a href="index.html#contact" class="nav-link">CONTACT</a>
+                <a href="login.html" class="nav-link" id="login-nav-link" style="display: none;">LOGIN</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="console-section">
+            <div class="error-message" id="error-message" style="display: none;"></div>
+            <div class="loading-indicator" id="loading-indicator">Loading your dashboard...</div>
+            
+            
+            <div id="dashboard-content" style="display: none;">
+                <div class="console-header">
+                    <div class="welcome-info">
+                        <h2>DASHBOARD</h2>
+                        <p>Your personal fitness command center</p>
+                    </div>
+                    <div class="user-controls">
+                        <span class="user-greeting" id="user-greeting">Hello, User</span>
+                        <button class="logout-button" id="logout-button">LOGOUT</button>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3 class="card-title">WORKOUT PROGRESS</h3>
+                        <div class="card-content">
+                            <p>Track your fitness journey and see your improvements over time.</p>
+                            <div class="quick-stats">
+                                <div class="stat-box">
+                                    <div class="stat-number">12</div>
+                                    <div class="stat-label">WORKOUTS</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-number">3</div>
+                                    <div class="stat-label">WEEKS</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-number">85%</div>
+                                    <div class="stat-label">COMPLETE</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <a href="workout-plan.html" class="action-btn">VIEW PLAN</a>
+                                <a href="#" class="action-btn">START WORKOUT</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3 class="card-title">NUTRITION TRACKING</h3>
+                        <div class="card-content">
+                            <p>Monitor your daily nutrition and maintain a balanced diet.</p>
+                            <div class="quick-stats">
+                                <div class="stat-box">
+                                    <div class="stat-number">1,847</div>
+                                    <div class="stat-label">CALORIES</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-number">78g</div>
+                                    <div class="stat-label">PROTEIN</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-number">2.1L</div>
+                                    <div class="stat-label">WATER</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <a href="#" class="action-btn">LOG MEAL</a>
+                                <a href="#" class="action-btn">VIEW GOALS</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3 class="card-title">RECENT ACTIVITY</h3>
+                        <div class="card-content">
+                            <div class="recent-activity">
+                                <div class="activity-item">
+                                    <span class="activity-icon">💪</span>
+                                    <div class="activity-text">
+                                        <div>Completed Upper Body Workout</div>
+                                        <div class="activity-date">2 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <span class="activity-icon">🥗</span>
+                                    <div class="activity-text">
+                                        <div>Logged healthy lunch</div>
+                                        <div class="activity-date">4 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <span class="activity-icon">🏃‍♀️</span>
+                                    <div class="activity-text">
+                                        <div>Morning cardio session</div>
+                                        <div class="activity-date">Yesterday</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <span class="activity-icon">⚖️</span>
+                                    <div class="activity-text">
+                                        <div>Weight check-in</div>
+                                        <div class="activity-date">2 days ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3 class="card-title">UPCOMING SESSIONS</h3>
+                        <div class="card-content">
+                            <p>Your scheduled training sessions and appointments.</p>
+                            <div class="activity-item">
+                                <span class="activity-icon">🎯</span>
+                                <div class="activity-text">
+                                    <div>Personal Training Session</div>
+                                    <div class="activity-date">Tomorrow 3:00 PM</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <span class="activity-icon">📱</span>
+                                <div class="activity-text">
+                                    <div>Virtual Check-in</div>
+                                    <div class="activity-date">Friday 10:00 AM</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <a href="#" class="action-btn">BOOK SESSION</a>
+                                <a href="#" class="action-btn">VIEW CALENDAR</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h4>DIVINES COACHING</h4>
+                    <p>Transform Your Fitness. Transform Yourself.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html" class="footer-link">HOME</a>
+                    <a href="about.html" class="footer-link">ABOUT</a>
+                    <a href="expertise.html" class="footer-link">EXPERTISE</a>
+                    <a href="coach.html" class="footer-link">COACH</a>
+                    <a href="index.html#contact" class="footer-link">CONTACT</a>
+                    <a href="console.html" class="footer-link">CONSOLE</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp, getApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAqmII6xw9zVXmBYK4sYQXM0d8LSC8tJ9A",
+            authDomain: "ptapp-f4b4d.firebaseapp.com",
+            projectId: "ptapp-f4b4d",
+            storageBucket: "ptapp-f4b4d.firebasestorage.app",
+            messagingSenderId: "360387400618",
+            appId: "1:360387400618:web:5e23bf828abfb4d76911d3",
+            measurementId: "G-6RBWTHBYX1"
+        };
+
+        // Initialize Firebase (check if already initialized)
+        let app, auth, db, analytics;
+        
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            analytics = getAnalytics(app);
+            console.log('Console page - Firebase initialized successfully');
+        } catch (error) {
+            console.log('Console page - Firebase already initialized, getting existing instance');
+            app = getApp();
+            auth = getAuth(app);
+            db = getFirestore(app);
+            analytics = getAnalytics(app);
+        }
+        
+        console.log('Console page - Auth object:', auth);
+        console.log('Console page - Current user immediately after init:', auth.currentUser);
+
+        // DOM elements
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const dashboardContent = document.getElementById('dashboard-content');
+        const errorMessage = document.getElementById('error-message');
+        const userGreeting = document.getElementById('user-greeting');
+        const logoutButton = document.getElementById('logout-button');
+
+        // Check authentication state - simplified approach
+        function checkAuthState() {
+            console.log('Console page - Checking auth state...');
+            console.log('Console page - Current user:', auth.currentUser);
+            
+            // Check sessionStorage as fallback
+            const sessionUser = sessionStorage.getItem('userEmail');
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            console.log('Console page - Session user:', sessionUser);
+            console.log('Console page - Is logged in flag:', isLoggedIn);
+            
+            if (auth.currentUser || (sessionUser && isLoggedIn === 'true')) {
+                // Check if user type is available in session
+                const isPT = sessionStorage.getItem('isPT');
+                console.log('Console page - User type (isPT):', isPT);
+                
+                if (isPT === 'true') {
+                    // User is a PT, redirect to PT console
+                    console.log('Console page - User is a PT, redirecting to PT console');
+                    window.location.href = 'pt-console.html';
+                    return;
+                }
+                
+                // User is signed in as client
+                console.log('Console page - User authenticated as client, showing dashboard');
+                
+                loadingIndicator.style.display = 'none';
+                
+                // Use Firebase user if available, otherwise use sessionStorage
+                const userEmail = auth.currentUser ? auth.currentUser.email : sessionUser;
+                const displayName = auth.currentUser ? 
+                    (auth.currentUser.displayName || auth.currentUser.email.split('@')[0]) : 
+                    sessionUser.split('@')[0];
+                
+                userGreeting.textContent = `Hello, ${displayName}`;
+                dashboardContent.style.display = 'block';
+                
+                console.log('Console page - Client Dashboard content should now be visible');
+            } else {
+                // No user found, but don't redirect immediately to prevent loop
+                console.log('Console page - No user found, but staying on console to prevent loop');
+                loadingIndicator.style.display = 'none';
+                
+                // Show a message instead of redirecting
+                const noUserMessage = document.createElement('div');
+                noUserMessage.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; background: rgba(255, 0, 128, 0.1); border: 1px solid rgba(255, 0, 128, 0.3); border-radius: 10px; margin: 2rem 0;">
+                        <h3 style="color: #ff0080; margin-bottom: 1rem;">Authentication Required</h3>
+                        <p style="color: #cccccc; margin-bottom: 1.5rem;">Please log in to access your dashboard.</p>
+                        <button onclick="window.location.href='login.html'" style="background: linear-gradient(45deg, #ff0080, #00ffff); border: none; padding: 0.8rem 1.5rem; border-radius: 8px; color: #000; font-weight: 700; cursor: pointer;">GO TO LOGIN</button>
+                    </div>
+                `;
+                document.querySelector('.console-section').appendChild(noUserMessage);
+            }
+        }
+        
+        // Start checking auth state after a short delay
+        setTimeout(checkAuthState, 1000);
+        
+        // Removed onAuthStateChanged listener to prevent logout loops
+
+        // Logout functionality
+        logoutButton.addEventListener('click', async () => {
+            try {
+                console.log('Client Console - Signing out user from Firebase...');
+                
+                // Clear ALL session data immediately
+                sessionStorage.clear();
+                localStorage.clear();
+                
+                // Sign out from Firebase
+                await signOut(auth);
+                
+                // Set flag to indicate we're coming from logout
+                sessionStorage.setItem('fromLogout', 'true');
+                
+                console.log('Client Console - User signed out successfully from all sessions');
+                
+                // Redirect to login page immediately
+                window.location.href = 'login.html';
+                
+            } catch (error) {
+                console.error('Client Console - Error signing out:', error);
+                errorMessage.textContent = 'Error signing out. Please try again.';
+                errorMessage.style.display = 'block';
+            }
+        });
+
+
+        // Make auth available globally for debugging
+        window.auth = auth;
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
