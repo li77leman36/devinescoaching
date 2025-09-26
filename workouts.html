@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Workouts</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔐</text></svg>">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Electrolize&family=Orbitron:wght@400;700;900&display=swap');
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Electrolize', sans-serif;
+    }
+    body{
+      min-height: 100vh;
+      width: 100%;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      color: #00ffff;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    .header {
+      text-align: center;
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+      margin-bottom: 30px;
+    }
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      font-family: 'Electrolize', sans-serif;
+      letter-spacing: 3px;
+    }
+    .header p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    .back-btn {
+      background: linear-gradient(45deg, #6c757d, #5a6268);
+      color: white;
+      border: 1px solid #6c757d;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(108, 117, 125, 0.3);
+      margin-right: 10px;
+    }
+    .back-btn:hover {
+      background: linear-gradient(45deg, #5a6268, #495057);
+      box-shadow: 0 0 30px rgba(108, 117, 125, 0.5);
+      transform: translateY(-2px);
+    }
+    .add-workout-btn {
+      background: linear-gradient(45deg, #00ffff, #0080ff);
+      color: #000;
+      border: 1px solid #00ffff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+    .add-workout-btn:hover {
+      background: linear-gradient(45deg, #00cccc, #0066cc);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+      transform: translateY(-2px);
+    }
+    .workouts-container {
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      padding: 30px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+      margin-bottom: 20px;
+    }
+    .workouts-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .workouts-header h2 {
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      font-size: 1.8rem;
+      font-family: 'Electrolize', sans-serif;
+      letter-spacing: 2px;
+    }
+    .workout-item {
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border-left: 4px solid #00ffff;
+      transition: all 0.3s ease;
+    }
+    .workout-item:hover {
+      background: rgba(0, 255, 255, 0.1);
+      border-color: #00ffff;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+    }
+    .workout-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #00ffff;
+      text-shadow: 0 0 5px #00ffff;
+      margin-bottom: 8px;
+    }
+    .workout-date {
+      color: rgba(0, 255, 255, 0.8);
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+    .workout-description {
+      color: rgba(0, 255, 255, 0.9);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .workout-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .edit-btn, .delete-btn {
+      padding: 6px 12px;
+      border: 1px solid;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+    .edit-btn {
+      background: linear-gradient(45deg, #17a2b8, #138496);
+      color: #000;
+      border-color: #17a2b8;
+      text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    }
+    .edit-btn:hover {
+      background: linear-gradient(45deg, #138496, #0f6674);
+      box-shadow: 0 0 15px rgba(23, 162, 184, 0.5);
+      transform: translateY(-1px);
+    }
+    .delete-btn {
+      background: linear-gradient(45deg, #ff0080, #ff4080);
+      color: #000;
+      border-color: #ff0080;
+      text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    }
+    .delete-btn:hover {
+      background: linear-gradient(45deg, #cc0066, #cc4080);
+      box-shadow: 0 0 15px rgba(255, 0, 128, 0.5);
+      transform: translateY(-1px);
+    }
+    .no-workouts {
+      text-align: center;
+      color: rgba(0, 255, 255, 0.6);
+      font-style: italic;
+      padding: 40px;
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      border-radius: 8px;
+    }
+    .loading {
+      text-align: center;
+      color: rgba(0, 255, 255, 0.8);
+      padding: 20px;
+    }
+
+    /* Edit Workout Modal Styles */
+    .edit-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      backdrop-filter: blur(5px);
+    }
+
+    .edit-modal-content {
+      background-color: white;
+      margin: 5% auto;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      color: #333;
+    }
+
+    .edit-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .edit-modal-header h2 {
+      color: #009579;
+      margin: 0;
+    }
+
+    .close-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .close-btn:hover {
+      background: #c82333;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #333;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .form-group textarea {
+      height: 80px;
+      resize: vertical;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: #009579;
+    }
+
+    .exercise-section {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border-left: 4px solid #009579;
+    }
+
+    .exercise-section h3 {
+      color: #009579;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    .add-exercise-btn {
+      background: #17a2b8;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .add-exercise-btn:hover {
+      background: #138496;
+    }
+
+    .remove-exercise-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    .remove-exercise-btn:hover {
+      background: #c82333;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+    }
+
+    .save-btn, .cancel-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .save-btn {
+      background: #009579;
+      color: white;
+    }
+
+    .save-btn:hover {
+      background: #006653;
+    }
+
+    .cancel-btn {
+      background: #6c757d;
+      color: white;
+    }
+
+    .cancel-btn:hover {
+      background: #5a6268;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Client Workouts</h1>
+    <p id="clientName">Loading...</p>
+    <div>
+      <button class="back-btn" onclick="goBack()">← Back to PT Dashboard</button>
+      <button class="add-workout-btn" onclick="addWorkout()">+ Add Workout</button>
+    </div>
+  </div>
+
+  <div class="workouts-container">
+    <div class="workouts-header">
+      <h2>Workout Plans</h2>
+      <span id="workoutCount">0 workouts</span>
+    </div>
+    <div id="workoutsList">
+      <div class="loading">Loading workouts...</div>
+    </div>
+  </div>
+
+  <!-- Edit Workout Modal -->
+  <div id="editModal" class="edit-modal">
+    <div class="edit-modal-content">
+      <div class="edit-modal-header">
+        <h2>Edit Workout</h2>
+        <button class="close-btn" onclick="closeEditModal()">&times;</button>
+      </div>
+      
+      <form id="editWorkoutForm">
+        <div class="form-group">
+          <label for="editTitle">Workout Title</label>
+          <input type="text" id="editTitle" name="title" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="editDescription">Description</label>
+          <textarea id="editDescription" name="description" placeholder="Enter workout description..."></textarea>
+        </div>
+        
+        <div id="exercisesContainer">
+          <!-- Exercises will be added here dynamically -->
+        </div>
+        
+        <button type="button" class="add-exercise-btn" onclick="addExercise()">+ Add Exercise</button>
+        
+        <div class="modal-actions">
+          <button type="button" class="cancel-btn" onclick="closeEditModal()">Cancel</button>
+          <button type="submit" class="save-btn">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script type="module">
+    import { firebaseConfig } from "./config.js";
+    
+    const firebaseApp = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const firestore = firebase.firestore();
+    
+    let selectedClientId = null;
+    let selectedClientName = null;
+    
+    // Check authentication
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      // Get client info from sessionStorage
+      selectedClientId = sessionStorage.getItem('selectedClientId');
+      selectedClientName = sessionStorage.getItem('selectedClientName');
+      
+      if (!selectedClientId || !selectedClientName) {
+        alert('No client selected. Redirecting to PT dashboard.');
+        window.location.href = 'pt.html';
+        return;
+      }
+      
+      // Update client name in header
+      document.getElementById('clientName').textContent = `Workouts for ${selectedClientName}`;
+      
+      // Load workouts
+      loadWorkouts();
+    });
+    
+    // Load workouts for the selected client
+    function loadWorkouts() {
+      const workoutsList = document.getElementById('workoutsList');
+      const workoutCount = document.getElementById('workoutCount');
+      
+      if (!selectedClientId) {
+        workoutsList.innerHTML = '<div class="no-workouts">No client selected</div>';
+        return;
+      }
+      
+      console.log('Loading workouts for client:', selectedClientId);
+      
+      // Load workouts from users/{clientId}/workouts subcollection
+      firestore.collection('users').doc(selectedClientId).collection('workouts')
+        .orderBy('createdAt', 'desc')
+        .get()
+        .then((querySnapshot) => {
+          console.log('Workouts query result:', querySnapshot.size, 'workouts found');
+          
+          if (querySnapshot.empty) {
+            // No workouts found - show empty state
+            workoutsList.innerHTML = `
+              <div class="no-workouts">
+                <h3>No workouts yet</h3>
+                <p>Click "Add Workout" to create the first workout plan for ${selectedClientName}</p>
+              </div>
+            `;
+            workoutCount.textContent = '0 workouts';
+          } else {
+            // Display workouts
+            const workouts = [];
+            querySnapshot.forEach((doc) => {
+              const workoutData = doc.data();
+              workouts.push({
+                id: doc.id,
+                ...workoutData
+              });
+            });
+            
+            displayWorkouts(workouts);
+            workoutCount.textContent = `${workouts.length} workout${workouts.length !== 1 ? 's' : ''}`;
+          }
+        })
+        .catch((error) => {
+          console.error('Error loading workouts:', error);
+          
+          // If subcollection doesn't exist, show empty state
+          // It will be created when first workout is added
+          workoutsList.innerHTML = `
+            <div class="no-workouts">
+              <h3>No workouts yet</h3>
+              <p>Click "Add Workout" to create the first workout plan for ${selectedClientName}</p>
+            </div>
+          `;
+          workoutCount.textContent = '0 workouts';
+        });
+    }
+    
+    // Display workouts in the UI
+    function displayWorkouts(workouts) {
+      const workoutsList = document.getElementById('workoutsList');
+      
+      if (workouts.length === 0) {
+        workoutsList.innerHTML = `
+          <div class="no-workouts">
+            <h3>No workouts yet</h3>
+            <p>Click "Add Workout" to create the first workout plan for ${selectedClientName}</p>
+          </div>
+        `;
+        return;
+      }
+      
+      workoutsList.innerHTML = workouts.map(workout => `
+        <div class="workout-item">
+          <div class="workout-title">${workout.title || 'Untitled Workout'}</div>
+          <div class="workout-date">Created: ${workout.createdAt ? new Date(workout.createdAt.seconds * 1000).toLocaleDateString() : 'Unknown date'}</div>
+          <div class="workout-description">${workout.description || 'No description provided'}</div>
+          <div class="workout-actions">
+            <button class="edit-btn" onclick="editWorkout('${workout.id}')">Edit</button>
+            <button class="delete-btn" onclick="deleteWorkout('${workout.id}')">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    // Go back to PT dashboard
+    window.goBack = function() {
+      window.location.href = 'pt.html';
+    };
+    
+    // Add new workout
+    window.addWorkout = function() {
+      const title = prompt('Enter workout title:');
+      if (!title || title.trim() === '') {
+        return;
+      }
+      
+      const description = prompt('Enter workout description:');
+      if (!description || description.trim() === '') {
+        return;
+      }
+      
+      // Create workout document in the subcollection
+      const workoutData = {
+        title: title.trim(),
+        description: description.trim(),
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdBy: auth.currentUser.uid
+      };
+      
+      console.log('Creating workout for client:', selectedClientId);
+      console.log('Workout data:', workoutData);
+      
+      // Add workout to users/{clientId}/workouts subcollection
+      firestore.collection('users').doc(selectedClientId).collection('workouts')
+        .add(workoutData)
+        .then((docRef) => {
+          console.log('Workout created with ID:', docRef.id);
+          alert('Workout created successfully!');
+          // Reload workouts to show the new one
+          loadWorkouts();
+        })
+        .catch((error) => {
+          console.error('Error creating workout:', error);
+          alert('Error creating workout: ' + error.message);
+        });
+    };
+    
+    // Edit workout
+    window.editWorkout = function(workoutId) {
+      console.log('Editing workout:', workoutId);
+      
+      // Store current workout ID
+      window.currentEditingWorkoutId = workoutId;
+      
+      // Load workout data and populate form
+      loadWorkoutForEdit(workoutId);
+    };
+
+    // Load workout data for editing
+    function loadWorkoutForEdit(workoutId) {
+      firestore.collection('users').doc(selectedClientId).collection('workouts').doc(workoutId).get()
+        .then((doc) => {
+          if (doc.exists) {
+            const workoutData = doc.data();
+            
+            // Populate basic fields
+            document.getElementById('editTitle').value = workoutData.title || '';
+            document.getElementById('editDescription').value = workoutData.description || '';
+            
+            // Load exercises
+            const exercises = workoutData.exercises || [];
+            loadExercisesForEdit(exercises);
+            
+            // Show modal
+            document.getElementById('editModal').style.display = 'block';
+          } else {
+            alert('Workout not found');
+          }
+        })
+        .catch((error) => {
+          console.error('Error loading workout for edit:', error);
+          alert('Error loading workout details');
+        });
+    }
+
+    // Load exercises into the edit form
+    function loadExercisesForEdit(exercises) {
+      const container = document.getElementById('exercisesContainer');
+      container.innerHTML = '';
+      
+      if (exercises.length === 0) {
+        // Add one empty exercise if none exist
+        addExercise();
+      } else {
+        exercises.forEach((exercise, index) => {
+          addExercise(exercise, index);
+        });
+      }
+    }
+
+    // Add exercise to the form
+    window.addExercise = function(exerciseData = null, index = null) {
+      const container = document.getElementById('exercisesContainer');
+      const exerciseIndex = index !== null ? index : container.children.length;
+      
+      const exerciseHtml = `
+        <div class="exercise-section" data-index="${exerciseIndex}">
+          <h3>Exercise ${exerciseIndex + 1}</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Machine/Exercise Name</label>
+              <input type="text" name="exercises[${exerciseIndex}].name" value="${exerciseData ? exerciseData.name || '' : ''}" placeholder="e.g., Bench Press, Treadmill" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Sets</label>
+              <input type="number" name="exercises[${exerciseIndex}].sets" value="${exerciseData ? exerciseData.sets || '' : ''}" placeholder="e.g., 3" min="1" required>
+            </div>
+            <div class="form-group">
+              <label>Reps</label>
+              <input type="text" name="exercises[${exerciseIndex}].reps" value="${exerciseData ? exerciseData.reps || '' : ''}" placeholder="e.g., 10-12, 8-10" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Notes</label>
+            <textarea name="exercises[${exerciseIndex}].notes" placeholder="Enter any additional notes or instructions...">${exerciseData ? exerciseData.notes || '' : ''}</textarea>
+          </div>
+          <button type="button" class="remove-exercise-btn" onclick="removeExercise(${exerciseIndex})">Remove Exercise</button>
+        </div>
+      `;
+      
+      container.insertAdjacentHTML('beforeend', exerciseHtml);
+    };
+
+    // Remove exercise from the form
+    window.removeExercise = function(index) {
+      const exerciseSection = document.querySelector(`[data-index="${index}"]`);
+      if (exerciseSection) {
+        exerciseSection.remove();
+        // Renumber remaining exercises
+        renumberExercises();
+      }
+    };
+
+    // Renumber exercises after removal
+    function renumberExercises() {
+      const sections = document.querySelectorAll('.exercise-section');
+      sections.forEach((section, newIndex) => {
+        section.setAttribute('data-index', newIndex);
+        section.querySelector('h3').textContent = `Exercise ${newIndex + 1}`;
+        
+        // Update input names
+        const inputs = section.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+          const name = input.getAttribute('name');
+          if (name) {
+            const newName = name.replace(/exercises\[\d+\]/, `exercises[${newIndex}]`);
+            input.setAttribute('name', newName);
+          }
+        });
+        
+        // Update remove button onclick
+        const removeBtn = section.querySelector('.remove-exercise-btn');
+        if (removeBtn) {
+          removeBtn.setAttribute('onclick', `removeExercise(${newIndex})`);
+        }
+      });
+    }
+
+    // Close edit modal
+    window.closeEditModal = function() {
+      document.getElementById('editModal').style.display = 'none';
+      window.currentEditingWorkoutId = null;
+    };
+
+    // Handle edit form submission
+    document.getElementById('editWorkoutForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const workoutData = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      
+      // Collect exercises
+      const exercises = [];
+      const exerciseSections = document.querySelectorAll('.exercise-section');
+      
+      exerciseSections.forEach(section => {
+        const exercise = {
+          name: section.querySelector('input[name*="name"]').value,
+          sets: parseInt(section.querySelector('input[name*="sets"]').value),
+          reps: section.querySelector('input[name*="reps"]').value,
+          notes: section.querySelector('textarea[name*="notes"]').value
+        };
+        
+        if (exercise.name && exercise.sets && exercise.reps) {
+          exercises.push(exercise);
+        }
+      });
+      
+      workoutData.exercises = exercises;
+      
+      console.log('Updating workout:', workoutData);
+      
+      // Update workout in Firestore
+      firestore.collection('users').doc(selectedClientId).collection('workouts').doc(window.currentEditingWorkoutId)
+        .update(workoutData)
+        .then(() => {
+          console.log('Workout updated successfully');
+          alert('Workout updated successfully!');
+          closeEditModal();
+          loadWorkouts(); // Reload workouts list
+        })
+        .catch((error) => {
+          console.error('Error updating workout:', error);
+          alert('Error updating workout: ' + error.message);
+        });
+    });
+    
+    // Delete workout
+    window.deleteWorkout = function(workoutId) {
+      if (confirm('Are you sure you want to delete this workout? This action cannot be undone.')) {
+        console.log('Deleting workout:', workoutId);
+        
+        // Delete workout from Firestore
+        firestore.collection('users').doc(selectedClientId).collection('workouts').doc(workoutId)
+          .delete()
+          .then(() => {
+            console.log('Workout deleted successfully');
+            alert('Workout deleted successfully!');
+            loadWorkouts(); // Reload workouts list
+          })
+          .catch((error) => {
+            console.error('Error deleting workout:', error);
+            alert('Error deleting workout: ' + error.message);
+          });
+      }
+    };
+  </script>
+</body>
+</html>

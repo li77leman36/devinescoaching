@@ -1,703 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Divines Coaching | Access Your Account</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Electrolize&family=Audiowide&display=swap" rel="stylesheet">
-    <style>
-        /* Login-specific styles */
-        .login-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .login-container {
-            max-width: 450px;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            border-radius: 20px;
-            padding: 3rem 2rem;
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
-            backdrop-filter: blur(15px);
-        }
-
-        .login-title {
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
-            color: #00ffff;
-            text-shadow: 0 0 15px #00ffff;
-            font-family: 'Electrolize', sans-serif;
-            letter-spacing: 3px;
-        }
-
-        .login-subtitle {
-            text-align: center;
-            color: #cccccc;
-            margin-bottom: 3rem;
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-
-        .form-group {
-            margin-bottom: 2rem;
-        }
-
-        .form-label {
-            display: block;
-            color: #ffffff;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 1rem 1.2rem;
-            background: rgba(0, 255, 255, 0.05);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            border-radius: 10px;
-            color: #ffffff;
-            font-size: 1rem;
-            font-family: 'Rajdhani', sans-serif;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #00ffff;
-            background: rgba(0, 255, 255, 0.1);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-        }
-
-        .form-input::placeholder {
-            color: #888888;
-        }
-
-        .login-button {
-            width: 100%;
-            padding: 1.2rem;
-            background: linear-gradient(45deg, #00ffff, #ff0080);
-            border: none;
-            border-radius: 10px;
-            color: #000;
-            font-family: 'Orbitron', monospace;
-            font-weight: 700;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 2rem;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-        }
-
-        .login-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
-        }
-
-        .login-button:active {
-            transform: translateY(0);
-        }
-
-        .login-button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .login-button:disabled:hover {
-            transform: none;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-        }
-
-        .login-options {
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        .login-link {
-            color: #00ffff;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-block;
-            margin: 0 1rem;
-        }
-
-        .login-link:hover {
-            color: #ff0080;
-            text-shadow: 0 0 10px #ff0080;
-        }
-
-        .divider {
-            text-align: center;
-            margin: 2rem 0;
-            position: relative;
-            color: #888888;
-        }
-
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.3), transparent);
-        }
-
-        .divider span {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 0 1rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .remember-forgot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .checkbox {
-            width: 18px;
-            height: 18px;
-            accent-color: #00ffff;
-        }
-
-        .checkbox-label {
-            color: #cccccc;
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-
-        .forgot-link {
-            color: #ff0080;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .forgot-link:hover {
-            text-shadow: 0 0 5px #ff0080;
-        }
-
-        .error-message {
-            background: rgba(255, 0, 128, 0.1);
-            border: 1px solid rgba(255, 0, 128, 0.3);
-            color: #ff0080;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            text-align: center;
-            display: none;
-        }
-
-        .success-message {
-            background: rgba(0, 255, 255, 0.1);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            color: #00ffff;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            text-align: center;
-            display: none;
-        }
-
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
-            .login-container {
-                margin: 1rem;
-                padding: 1.5rem;
-            }
-
-            .login-title {
-                font-size: 2rem;
-            }
-
-            .login-subtitle {
-                font-size: 1rem;
-            }
-
-            .form-group {
-                margin-bottom: 1.2rem;
-            }
-
-            .form-label {
-                font-size: 0.9rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .form-input {
-                padding: 0.8rem;
-                font-size: 1rem;
-            }
-
-            .login-button {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
-            }
-
-            .remember-forgot {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
-
-            .login-link {
-                display: block;
-                margin: 0.5rem 0;
-            }
-
-            .login-section {
-                padding: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .login-container {
-                margin: 0.5rem;
-                padding: 1rem;
-            }
-
-            .login-title {
-                font-size: 1.8rem;
-            }
-
-            .login-subtitle {
-                font-size: 0.9rem;
-            }
-
-            .form-input {
-                padding: 0.7rem;
-                font-size: 0.9rem;
-            }
-
-            .login-button {
-                padding: 0.7rem 1.2rem;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Login & Registration Form</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔐</text></svg>">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="grid-background"></div>
-    
-    <header class="header">
-        <nav class="nav">
-            <div class="logo">
-                <h1 class="logo-text">DIVINES</h1>
-                <span class="logo-subtitle">COACHING</span>
-            </div>
-            
-            <!-- Hamburger Menu Button -->
-            <button class="hamburger" id="hamburger">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-            
-            <!-- Navigation Links -->
-            <div class="nav-links" id="nav-links">
-                <a href="index.html" class="nav-link">HOME</a>
-                <a href="about.html" class="nav-link">ABOUT</a>
-                <a href="expertise.html" class="nav-link">EXPERTISE</a>
-                <a href="coach.html" class="nav-link">COACH</a>
-                <a href="index.html#contact" class="nav-link">CONTACT</a>
-                <a href="login.html" class="nav-link">CLIENT LOGIN</a>
-                <a href="pt-login.html" class="nav-link">PT LOGIN</a>
-            </div>
-        </nav>
-    </header>
-
-    <main class="main">
-        <section class="login-section">
-            <div class="login-container">
-                <h2 class="login-title">LOGIN</h2>
-                <p class="login-subtitle">Access your Divines Coaching account to track your fitness journey</p>
-                
-                <div class="error-message" id="error-message"></div>
-                <div class="success-message" id="success-message"></div>
-                
-                <form id="login-form">
-                    <div class="form-group">
-                        <label for="email" class="form-label">EMAIL ADDRESS</label>
-                        <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="password" class="form-label">PASSWORD</label>
-                        <input type="password" id="password" name="password" class="form-input" placeholder="Enter your password" required>
-                    </div>
-                    
-                    <div class="remember-forgot">
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="remember" class="checkbox">
-                            <label for="remember" class="checkbox-label">Remember me</label>
-                        </div>
-                        <a href="#" class="forgot-link">Forgot Password?</a>
-                    </div>
-                    
-                    <button type="submit" class="login-button">LOGIN</button>
-                </form>
-                
-                
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <h4>DIVINES COACHING</h4>
-                    <p>Transform Your Fitness. Transform Yourself.</p>
-                </div>
-                <div class="footer-links">
-                    <a href="index.html" class="footer-link">HOME</a>
-                    <a href="about.html" class="footer-link">ABOUT</a>
-                    <a href="expertise.html" class="footer-link">EXPERTISE</a>
-                    <a href="coach.html" class="footer-link">COACH</a>
-                    <a href="index.html#contact" class="footer-link">CONTACT</a>
-                    <a href="login.html" class="footer-link">LOGIN</a>
-                </div>
-            </div>
+  <div class="container">
+    <input type="checkbox" id="check">
+    <div class="login form">
+      <header>Login</header>
+      <form action="#">
+        <input type="text" id='inUsr' placeholder="Enter your email">
+        <input type="password" id="inPass" placeholder="Enter your password">
+        <span class="signup">
+          <a href="#" id="forgotLabel">Forgot password?</a>
+        </span>
+        <input type="button" class="button loginbtn" value="Login">
+      </form>
+      <div class="signup">
+        <span class="signup">Don't have an account?
+          <a href="#" id="signupLabel">Signup</a>
+        </span>
+      </div>
+    </div>
+    <div class="registration form">
+      <header>Signup</header>
+      <form action="#">
+        <input type="text" id="name" placeholder="Enter your name">
+        <input type="text" id='username' placeholder="Enter your username">
+        <input type="text" id='email' placeholder="Enter your email">
+        <input type="password" id='password' placeholder="Create a password">
+        <div class="user-type-selection">
+          <label>Select user type:</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="userType" value="pt" required>
+              <span>Personal Trainer (PT)</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="userType" value="client" required>
+              <span>Client</span>
+            </label>
+          </div>
         </div>
-    </footer>
-
-    <!-- Firebase SDK -->
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics.js";
-
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAqmII6xw9zVXmBYK4sYQXM0d8LSC8tJ9A",
-            authDomain: "ptapp-f4b4d.firebaseapp.com",
-            projectId: "ptapp-f4b4d",
-            storageBucket: "ptapp-f4b4d.firebasestorage.app",
-            messagingSenderId: "360387400618",
-            appId: "1:360387400618:web:5e23bf828abfb4d76911d3",
-            measurementId: "G-6RBWTHBYX1"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const analytics = getAnalytics(app);
-
-        // Check if user is already logged in - show appropriate UI
-        onAuthStateChanged(auth, async (user) => {
-            console.log('Login page - Auth state changed:', user ? 'User logged in' : 'User not logged in');
-            
-            // Check if we're coming from a logout - if so, show login form regardless
-            const isFromLogout = sessionStorage.getItem('fromLogout');
-            if (isFromLogout) {
-                console.log('Login page - Coming from logout, showing login form');
-                // Keep the flag for longer to handle multiple logout cycles
-                setTimeout(() => {
-                    sessionStorage.removeItem('fromLogout');
-                }, 5000);
-                document.getElementById('login-form').style.display = 'block';
-                document.getElementById('success-message').style.display = 'none';
-                return;
-            }
-            
-            // Also check if we're in a logout state (no user but fromLogout flag exists)
-            if (!user && sessionStorage.getItem('fromLogout')) {
-                console.log('Login page - No user but logout flag exists, showing login form');
-                document.getElementById('login-form').style.display = 'block';
-                document.getElementById('success-message').style.display = 'none';
-                return;
-            }
-            
-            // Additional check: if no user and no session data, show login form
-            if (!user && !sessionStorage.getItem('userEmail')) {
-                console.log('Login page - No user and no session data, showing login form');
-                document.getElementById('login-form').style.display = 'block';
-                document.getElementById('success-message').style.display = 'none';
-                return;
-            }
-            
-            if (user) {
-                console.log('Login page - User details:', {
-                    email: user.email,
-                    uid: user.uid,
-                    displayName: user.displayName
-                });
-                
-                // Store user info in sessionStorage
-                sessionStorage.setItem('userEmail', user.email);
-                sessionStorage.setItem('userUID', user.uid);
-                sessionStorage.setItem('isLoggedIn', 'true');
-                
-                // Check user's current role
-                let userRole = 'Unknown';
-                let consoleUrl = 'console.html';
-                
-                try {
-                    // Check if user is a PT
-                    const ptDocRef = doc(db, 'pt', user.uid);
-                    const ptDoc = await getDoc(ptDocRef);
-                    
-                    if (ptDoc.exists()) {
-                        userRole = 'Personal Trainer';
-                        consoleUrl = 'pt-console.html';
-                        sessionStorage.setItem('isPT', 'true');
-                    } else {
-                        // Check if user is a client
-                        const clientDocRef = doc(db, 'clients', user.uid);
-                        const clientDoc = await getDoc(clientDocRef);
-                        
-                        if (clientDoc.exists()) {
-                            userRole = 'Client';
-                            sessionStorage.setItem('isPT', 'false');
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error checking user role:', error);
-                }
-                
-                // Hide login form and show "already logged in" message
-                document.getElementById('login-form').style.display = 'none';
-                document.getElementById('success-message').style.display = 'block';
-                document.getElementById('success-message').innerHTML = `
-                    <div style="text-align: center; padding: 2rem; background: rgba(0, 255, 255, 0.1); border: 1px solid rgba(0, 255, 255, 0.3); border-radius: 10px; margin: 2rem 0;">
-                        <h3 style="color: #00ffff; margin-bottom: 1rem;">Already Logged In</h3>
-                        <p style="color: #cccccc; margin-bottom: 0.5rem;">You are already logged in as: <strong style="color: #00ffff;">${user.email}</strong></p>
-                        <p style="color: #cccccc; margin-bottom: 1.5rem;">Role: <strong style="color: #00ffff;">${userRole}</strong></p>
-                        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                            <button onclick="window.location.href='${consoleUrl}'" style="background: linear-gradient(45deg, #00ffff, #ff0080); border: none; padding: 0.8rem 1.5rem; border-radius: 8px; color: #000; font-weight: 700; cursor: pointer;">GO TO ${userRole.toUpperCase()} CONSOLE</button>
-                        </div>
-                        <p style="color: #888; font-size: 0.9rem; margin-top: 1rem;">To switch roles, please logout first and login with the appropriate account.</p>
-                    </div>
-                `;
-                
-                console.log('Login page - User logged in as', userRole, ', showing console options');
-            } else {
-                console.log('Login page - No user found, showing login form');
-                
-                // Clear all session data
-                sessionStorage.removeItem('isLoggedIn');
-                sessionStorage.removeItem('isPT');
-                sessionStorage.removeItem('userEmail');
-                sessionStorage.removeItem('userUID');
-                
-                // Show login form and hide success message
-                document.getElementById('login-form').style.display = 'block';
-                document.getElementById('success-message').style.display = 'none';
-            }
-        });
-
-        // Login form handling
-        document.getElementById('login-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('error-message');
-            const successMessage = document.getElementById('success-message');
-            const loginButton = document.querySelector('.login-button');
-            
-            // Hide previous messages
-            errorMessage.style.display = 'none';
-            successMessage.style.display = 'none';
-            
-            // Basic validation
-            if (!email || !password) {
-                errorMessage.textContent = 'Please fill in all fields';
-                errorMessage.style.display = 'block';
-                return;
-            }
-            
-            if (!email.includes('@')) {
-                errorMessage.textContent = 'Please enter a valid email address';
-                errorMessage.style.display = 'block';
-                return;
-            }
-            
-            // Disable login button and show loading state
-            loginButton.disabled = true;
-            loginButton.textContent = 'LOGGING IN...';
-            
-            try {
-                // Sign in with Firebase
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-                
-                console.log('User signed in successfully:', user.email);
-                
-                loginButton.textContent = 'CHECKING USER TYPE...';
-                
-                try {
-                    // First check if user is a PT
-                    const ptDocRef = doc(db, 'pt', user.uid);
-                    const ptDoc = await getDoc(ptDocRef);
-                    
-                    if (ptDoc.exists()) {
-                        console.log('User is a PT, redirecting to PT console');
-                        
-                        // Store PT info in sessionStorage
-                        sessionStorage.setItem('userEmail', user.email);
-                        sessionStorage.setItem('userUID', user.uid);
-                        sessionStorage.setItem('isLoggedIn', 'true');
-                        sessionStorage.setItem('isPT', 'true');
-                        
-                        successMessage.textContent = 'PT account detected! Redirecting to PT console...';
-                        successMessage.style.display = 'block';
-                        
-                        setTimeout(() => {
-                            window.location.href = 'pt-console.html';
-                        }, 1500);
-                        return;
-                    }
-                    
-                    // Check if user is a client
-                    const clientDocRef = doc(db, 'clients', user.uid);
-                    const clientDoc = await getDoc(clientDocRef);
-                    
-                    if (clientDoc.exists()) {
-                        console.log('User is a client, redirecting to client console');
-                        
-                        // Store client info in sessionStorage
-                        sessionStorage.setItem('userEmail', user.email);
-                        sessionStorage.setItem('userUID', user.uid);
-                        sessionStorage.setItem('isLoggedIn', 'true');
-                        sessionStorage.setItem('isPT', 'false');
-                        
-                        successMessage.textContent = 'Client login successful! Redirecting to dashboard...';
-                        successMessage.style.display = 'block';
-                        
-                        // Clear any previous redirect flags
-                        sessionStorage.removeItem('lastRedirect');
-                        
-                        setTimeout(() => {
-                            window.location.href = 'console.html';
-                        }, 1500);
-                    } else {
-                        // User exists in Firebase Auth but not in PT or clients collection
-                        console.log('User not found in PT or clients database');
-                        
-                        // Sign out the user
-                        await auth.signOut();
-                        
-                        // Re-enable login button
-                        loginButton.disabled = false;
-                        loginButton.textContent = 'LOGIN';
-                        
-                        errorMessage.textContent = 'Account not found in database. Please contact support.';
-                        errorMessage.style.display = 'block';
-                    }
-                    
-                } catch (dbError) {
-                    console.error('Error checking user type:', dbError);
-                    
-                    // Re-enable login button
-                    loginButton.disabled = false;
-                    loginButton.textContent = 'LOGIN';
-                    
-                    errorMessage.textContent = 'Error verifying account. Please try again.';
-                    errorMessage.style.display = 'block';
-                }
-                
-            } catch (error) {
-                console.error('Error signing in:', error);
-                
-                // Re-enable login button
-                loginButton.disabled = false;
-                loginButton.textContent = 'LOGIN';
-                
-                // Show error message based on Firebase error code
-                let errorText = 'Login failed. Please try again.';
-                
-                switch (error.code) {
-                    case 'auth/user-not-found':
-                        errorText = 'No account found with this email address.';
-                        break;
-                    case 'auth/wrong-password':
-                        errorText = 'Incorrect password. Please try again.';
-                        break;
-                    case 'auth/invalid-email':
-                        errorText = 'Please enter a valid email address.';
-                        break;
-                    case 'auth/user-disabled':
-                        errorText = 'This account has been disabled.';
-                        break;
-                    case 'auth/too-many-requests':
-                        errorText = 'Too many failed attempts. Please try again later.';
-                        break;
-                    case 'auth/network-request-failed':
-                        errorText = 'Network error. Please check your connection.';
-                        break;
-                    default:
-                        errorText = error.message;
-                }
-                
-                errorMessage.textContent = errorText;
-                errorMessage.style.display = 'block';
-            }
-        });
-
-
-        // Make auth available globally for debugging
-        window.auth = auth;
-    </script>
-
-    <script src="script.js"></script>
-    <script>
-        // Additional login page functionality (non-Firebase)</script>
-        
-        // Add form input animations
-        const formInputs = document.querySelectorAll('.form-input');
-        formInputs.forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'translateY(-2px)';
-            });
-            
-            input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'translateY(0)';
-            });
-        });
-        
-        // Add typing effect to login title
-        const loginTitle = document.querySelector('.login-title');
-        if (loginTitle) {
-            const originalText = loginTitle.textContent;
-            loginTitle.textContent = '';
-            
-            let i = 0;
-            const typeWriter = () => {
-                if (i < originalText.length) {
-                    loginTitle.textContent += originalText.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, 150);
-                }
-            };
-            
-            setTimeout(typeWriter, 500);
-        }
-    </script>
+        <input type="button" class="button signupbtn" value="Signup">
+      </form>
+      <div class="signup">
+        <span class="signup">Already have an account?
+          <a href="#" id="loginLabel">Login</a>
+        </span>
+      </div>
+    </div>
+    <div class="forgot form" >
+      <header>Forgot Password</header>
+      <form action="#">
+        <input type="text" id='forgotinp' placeholder="Enter your email">
+        <input type="button" class="button forgotbtn" value="Submit">
+      </form>
+      <div class="signup">
+        <span class="signup">Don't have an account?
+          <a href="#" id="signupLabel">Signup</a>
+        </span>
+      </div>
+      <div class="signup">
+        <span class="signup">Already have an account?
+          <a href="#" id="loginLabel">Login</a>
+        </span>
+      </div>
+    </div>
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="page0.js?v=3" type="module"></script>
 </body>
 </html>

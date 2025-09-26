@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection - users can read/write their own data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Allow PTs to read their clients' data
+      allow read: if request.auth != null &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.userType == 'pt';
+    }
+    
+    // Health questionnaire subcollection - users can read/write their own health data
+    match /users/{userId}/healthQs/{document} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Allow PTs to read their clients' health data
+      allow read: if request.auth != null &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.userType == 'pt';
+    }
+    
+    // Workouts subcollection - PTs can read/write their clients' workouts
+    match /users/{userId}/workouts/{workoutId} {
+      // Allow PTs to read and write workouts for their clients
+      allow read, write: if request.auth != null &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.userType == 'pt';
+      
+      // Allow clients to read their own workouts
+      allow read: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}

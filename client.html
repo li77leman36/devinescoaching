@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Dashboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Electrolize&family=Orbitron:wght@400;700;900&display=swap');
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Electrolize', sans-serif;
+    }
+    body{
+      min-height: 100vh;
+      width: 100%;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      color: #00ffff;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .dashboard {
+      text-align: center;
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      padding: 40px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+    }
+    .dashboard h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      font-family: 'Electrolize', sans-serif;
+      letter-spacing: 3px;
+    }
+    .dashboard p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+    .signout-btn {
+      background: linear-gradient(45deg, #00ffff, #0080ff);
+      color: #000;
+      border: 1px solid #00ffff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+    .signout-btn:hover {
+      background: linear-gradient(45deg, #00cccc, #0066cc);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+      transform: translateY(-2px);
+    }
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .header-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .settings-btn {
+      background: linear-gradient(45deg, #ff0080, #ff4080);
+      color: #000;
+      border: 1px solid #ff0080;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(255, 0, 128, 0.3);
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+    .settings-btn:hover {
+      background: linear-gradient(45deg, #cc0066, #cc4080);
+      box-shadow: 0 0 30px rgba(255, 0, 128, 0.5);
+      transform: translateY(-2px);
+    }
+    .settings-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 10000;
+      backdrop-filter: blur(5px);
+    }
+    
+    .settings-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      color: #00ffff;
+    }
+    .settings-header {
+      position: relative;
+    }
+    .settings-close {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: linear-gradient(45deg, #ff0080, #ff4080);
+      color: #000;
+      border: 1px solid #ff0080;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0 0 15px rgba(255, 0, 128, 0.3);
+      transition: all 0.3s ease;
+    }
+    .settings-close:hover {
+      background: linear-gradient(45deg, #cc0066, #cc4080);
+      box-shadow: 0 0 25px rgba(255, 0, 128, 0.5);
+      transform: scale(1.1);
+    }
+    .settings-section {
+      margin-bottom: 20px;
+    }
+    .settings-section h3 {
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      margin-bottom: 15px;
+      font-size: 18px;
+      font-family: 'Electrolize', sans-serif;
+      letter-spacing: 2px;
+    }
+    .settings-form {
+      display: none;
+    }
+    .settings-form.show {
+      display: block;
+    }
+    .form-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .form-group {
+      flex: 1;
+    }
+    .form-group label {
+      display: block;
+      color: #333;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      height: 40px;
+      padding: 0 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: #009579;
+    }
+    .settings-save-btn {
+      background: linear-gradient(45deg, #00ffff, #0080ff);
+      color: #000;
+      border: 1px solid #00ffff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+    .settings-save-btn:hover {
+      background: linear-gradient(45deg, #00cccc, #0066cc);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+      transform: translateY(-2px);
+    }
+
+    /* Header and Hamburger Menu Styles */
+    .main-header {
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .main-header h1 {
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      font-size: 1.8rem;
+      margin: 0;
+      font-family: 'Electrolize', sans-serif;
+      letter-spacing: 2px;
+    }
+
+    .hamburger-menu {
+      position: relative;
+    }
+
+    .hamburger-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hamburger-btn span {
+      width: 25px;
+      height: 3px;
+      background: #00ffff;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 5px #00ffff;
+    }
+
+    .hamburger-btn:hover span {
+      background: #ffffff;
+      box-shadow: 0 0 10px #00ffff;
+    }
+
+    .hamburger-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+      padding: 10px 0;
+      min-width: 150px;
+      z-index: 1000;
+      display: none;
+      margin-top: 10px;
+    }
+
+    .hamburger-dropdown.show {
+      display: block;
+    }
+
+    .hamburger-dropdown a {
+      display: block;
+      padding: 12px 20px;
+      color: #00ffff;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 5px #00ffff;
+    }
+
+    .hamburger-dropdown a:hover {
+      background: rgba(0, 255, 255, 0.1);
+      color: #ffffff;
+      text-shadow: 0 0 10px #00ffff;
+    }
+
+    /* Main Content Styles */
+    .main-content {
+      padding: 40px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .welcome-section {
+      text-align: center;
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      padding: 40px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+    }
+
+    .welcome-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      font-family: 'Electrolize', sans-serif;
+      letter-spacing: 3px;
+    }
+
+    .workouts-heading {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      font-family: 'Electrolize', sans-serif;
+      letter-spacing: 2px;
+    }
+
+    .workouts-subtitle {
+      font-size: 1.1rem;
+      color: rgba(0, 255, 255, 0.8);
+      margin: 0;
+    }
+
+    /* Workout styles */
+    #workoutsContainer {
+      margin-top: 20px;
+    }
+
+    .workout-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border-left: 4px solid #009579;
+    }
+
+    .workout-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #009579;
+      margin-bottom: 8px;
+    }
+
+    .workout-date {
+      color: #ccc;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .workout-description {
+      color: #ddd;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .workout-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .view-workout-btn {
+      background: #009579;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .view-workout-btn:hover {
+      background: #006653;
+    }
+
+    .no-workouts {
+      text-align: center;
+      color: #666;
+      font-style: italic;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+    }
+
+    .loading {
+      text-align: center;
+      color: #ccc;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with hamburger menu -->
+  <header class="main-header">
+    <div class="hamburger-menu">
+      <button class="hamburger-btn" onclick="toggleHamburgerMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div id="hamburgerMenu" class="hamburger-dropdown">
+        <a href="#" onclick="openSettingsFromHamburger(); return false;">Settings</a>
+        <a href="#" onclick="signOut(); return false;">Sign Out</a>
+      </div>
+    </div>
+    <h1>Client Dashboard</h1>
+  </header>
+
+  <!-- Main content -->
+  <main class="main-content" id="mainDashboard" style="display: none;">
+    <div class="welcome-section">
+      <h2 id="welcomeMessage">Welcome!</h2>
+      <h3 class="workouts-heading">My Workouts</h3>
+      <div id="workoutsContainer">
+        <div class="loading">Loading workouts...</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Settings Overlay (hidden by default) -->
+  <div id="settingsMenu" class="settings-menu" style="display: none;">
+    <div class="settings-content">
+      <div class="settings-header">
+        <h3>Settings</h3>
+        <button class="settings-close" onclick="closeSettings()">&times;</button>
+      </div>
+      <div class="settings-section">
+        <h3>Health Information</h3>
+        <button onclick="toggleHealthForm()" style="background: #009579; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-bottom: 15px;">Edit Health Info</button>
+        <form id="healthEditForm" class="settings-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editHeight">Height (cm)</label>
+              <input type="number" id="editHeight" name="height" placeholder="e.g., 175">
+            </div>
+            <div class="form-group">
+              <label for="editWeight">Weight (kg)</label>
+              <input type="number" id="editWeight" name="weight" placeholder="e.g., 70">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editAge">Age</label>
+              <input type="number" id="editAge" name="age" placeholder="e.g., 25">
+            </div>
+            <div class="form-group">
+              <label for="editGender">Gender</label>
+              <select id="editGender" name="gender">
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+                <option value="prefer-not-to-say">Prefer not to say</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="editActivityLevel">Activity Level</label>
+            <select id="editActivityLevel" name="activityLevel">
+              <option value="">Select Activity Level</option>
+              <option value="sedentary">Sedentary (little to no exercise)</option>
+              <option value="lightly-active">Lightly Active (light exercise 1-3 days/week)</option>
+              <option value="moderately-active">Moderately Active (moderate exercise 3-5 days/week)</option>
+              <option value="very-active">Very Active (hard exercise 6-7 days/week)</option>
+              <option value="extremely-active">Extremely Active (very hard exercise, physical job)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="editFitnessGoals">Fitness Goals</label>
+            <select id="editFitnessGoals" name="fitnessGoals">
+              <option value="">Select Fitness Goals</option>
+              <option value="weight-loss">Weight Loss</option>
+              <option value="muscle-gain">Muscle Gain</option>
+              <option value="general-fitness">General Fitness</option>
+              <option value="endurance">Endurance</option>
+              <option value="strength">Strength</option>
+              <option value="flexibility">Flexibility</option>
+              <option value="sport-specific">Sport Specific</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="editMedicalConditions">Medical Conditions (optional)</label>
+            <input type="text" id="editMedicalConditions" name="medicalConditions" placeholder="e.g., diabetes, hypertension, etc.">
+          </div>
+          <div class="form-group">
+            <label for="editInjuries">Previous Injuries (optional)</label>
+            <input type="text" id="editInjuries" name="injuries" placeholder="e.g., knee injury, back pain, etc.">
+          </div>
+          <div class="form-group">
+            <label for="editExperience">Fitness Experience</label>
+            <select id="editExperience" name="experience">
+              <option value="">Select Experience Level</option>
+              <option value="beginner">Beginner (0-6 months)</option>
+              <option value="intermediate">Intermediate (6 months - 2 years)</option>
+              <option value="advanced">Advanced (2+ years)</option>
+            </select>
+          </div>
+          <button type="submit" class="settings-save-btn">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard" id="healthFormSection" style="display: none;">
+    <h1>Health Questionnaire</h1>
+    <p>Please complete this health questionnaire to help your trainer provide the best service.</p>
+    
+    <form id="healthForm" style="max-width: 500px; margin: 0 auto;">
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; color: white; margin-bottom: 5px;">Height (cm)</label>
+        <input type="number" id="height" name="height" placeholder="e.g., 175" required style="width: 100%; height: 40px; padding: 0 10px; border-radius: 4px; border: none;">
+      </div>
+      
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; color: white; margin-bottom: 5px;">Weight (kg)</label>
+        <input type="number" id="weight" name="weight" placeholder="e.g., 70" required style="width: 100%; height: 40px; padding: 0 10px; border-radius: 4px; border: none;">
+      </div>
+      
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; color: white; margin-bottom: 5px;">Age</label>
+        <input type="number" id="age" name="age" placeholder="e.g., 25" required style="width: 100%; height: 40px; padding: 0 10px; border-radius: 4px; border: none;">
+      </div>
+      
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; color: white; margin-bottom: 5px;">Gender</label>
+        <select id="gender" name="gender" required style="width: 100%; height: 40px; padding: 0 10px; border-radius: 4px; border: none;">
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+          <option value="prefer-not-to-say">Prefer not to say</option>
+        </select>
+      </div>
+      
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; color: white; margin-bottom: 5px;">Activity Level</label>
+        <select id="activityLevel" name="activityLevel" required style="width: 100%; height: 40px; padding: 0 10px; border-radius: 4px; border: none;">
+          <option value="">Select Activity Level</option>
+          <option value="sedentary">Sedentary (little to no exercise)</option>
+          <option value="lightly-active">Lightly Active (light exercise 1-3 days/week)</option>
+          <option value="moderately-active">Moderately Active (moderate exercise 3-5 days/week)</option>
+          <option value="very-active">Very Active (hard exercise 6-7 days/week)</option>
+          <option value="extremely-active">Extremely Active (very hard exercise, physical job)</option>
+        </select>
+      </div>
+      
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; color: white; margin-bottom: 5px;">Fitness Goals</label>
+        <select id="fitnessGoals" name="fitnessGoals" required style="width: 100%; height: 40px; padding: 0 10px; border-radius: 4px; border: none;">
+          <option value="">Select Fitness Goals</option>
+          <option value="weight-loss">Weight Loss</option>
+          <option value="muscle-gain">Muscle Gain</option>
+          <option value="general-fitness">General Fitness</option>
+          <option value="endurance">Endurance</option>
+          <option value="strength">Strength</option>
+          <option value="flexibility">Flexibility</option>
+          <option value="sport-specific">Sport Specific</option>
+        </select>
+      </div>
+      
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; color: white; margin-bottom: 5px;">Medical Conditions (optional)</label>
+        <input type="text" id="medicalConditions" name="medicalConditions" placeholder="e.g., diabetes, hypertension, etc." style="width: 100%; height: 40px; padding: 0 10px; border-radius: 4px; border: none;">
+      </div>
+      
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; color: white; margin-bottom: 5px;">Previous Injuries (optional)</label>
+        <input type="text" id="injuries" name="injuries" placeholder="e.g., knee injury, back pain, etc." style="width: 100%; height: 40px; padding: 0 10px; border-radius: 4px; border: none;">
+      </div>
+      
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; color: white; margin-bottom: 5px;">Fitness Experience</label>
+        <select id="experience" name="experience" required style="width: 100%; height: 40px; padding: 0 10px; border-radius: 4px; border: none;">
+          <option value="">Select Experience Level</option>
+          <option value="beginner">Beginner (0-6 months)</option>
+          <option value="intermediate">Intermediate (6 months - 2 years)</option>
+          <option value="advanced">Advanced (2+ years)</option>
+        </select>
+      </div>
+      
+      <button type="submit" class="signout-btn" style="width: 100%;">Complete Health Questionnaire</button>
+    </form>
+  </div>
+  
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script type="module">
+    import { firebaseConfig } from "./config.js";
+    
+    const firebaseApp = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const firestore = firebase.firestore();
+    
+    // Check authentication and form completion status
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      // Check user data and form completion
+      firestore.collection('users').doc(user.uid).get()
+        .then((doc) => {
+          if (doc.exists) {
+            const userData = doc.data();
+            let formComplete = userData.formComplete;
+            
+            // If formComplete field doesn't exist, create it and set to 'no'
+            if (formComplete === undefined) {
+              firestore.collection('users').doc(user.uid).update({
+                formComplete: 'no'
+              }).then(() => {
+                formComplete = 'no';
+                showHealthForm();
+              }).catch((error) => {
+                console.error('Error updating formComplete field:', error);
+                showHealthForm();
+              });
+            } else if (formComplete === 'no') {
+              showHealthForm();
+            } else {
+              showMainDashboard();
+            }
+          } else {
+            // User document doesn't exist, redirect to login
+            window.location.href = 'login.html';
+          }
+        })
+        .catch((error) => {
+          console.error('Error checking user data:', error);
+          window.location.href = 'login.html';
+        });
+    });
+    
+    function showMainDashboard() {
+      document.getElementById('mainDashboard').style.display = 'block';
+      document.getElementById('healthFormSection').style.display = 'none';
+      
+      // Load user's name for welcome message
+      loadUserName();
+      
+      // Load user's workouts
+      loadUserWorkouts();
+    }
+    
+    function showHealthForm() {
+      document.getElementById('mainDashboard').style.display = 'none';
+      document.getElementById('healthFormSection').style.display = 'block';
+    }
+    
+    // Load user's name for welcome message
+    function loadUserName() {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      firestore.collection('users').doc(user.uid).get()
+        .then((doc) => {
+          if (doc.exists) {
+            const userData = doc.data();
+            const userName = userData.name || userData.username || 'User';
+            document.getElementById('welcomeMessage').textContent = `Welcome, ${userName}!`;
+          }
+        })
+        .catch((error) => {
+          console.error('Error loading user name:', error);
+          document.getElementById('welcomeMessage').textContent = 'Welcome!';
+        });
+    }
+
+    // Load user's workouts
+    function loadUserWorkouts() {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const workoutsContainer = document.getElementById('workoutsContainer');
+      
+      console.log('Loading workouts for user:', user.uid);
+      
+      // Load workouts from users/{uid}/workouts subcollection
+      firestore.collection('users').doc(user.uid).collection('workouts')
+        .orderBy('createdAt', 'desc')
+        .get()
+        .then((querySnapshot) => {
+          console.log('Workouts query result:', querySnapshot.size, 'workouts found');
+          
+          if (querySnapshot.empty) {
+            // No workouts found - show empty state
+            workoutsContainer.innerHTML = `
+              <div class="no-workouts">
+                <h3>No workouts assigned yet</h3>
+                <p>Your trainer hasn't assigned any workouts yet. Check back later!</p>
+              </div>
+            `;
+          } else {
+            // Display workouts
+            const workouts = [];
+            querySnapshot.forEach((doc) => {
+              const workoutData = doc.data();
+              workouts.push({
+                id: doc.id,
+                ...workoutData
+              });
+            });
+            
+            displayUserWorkouts(workouts);
+          }
+        })
+        .catch((error) => {
+          console.error('Error loading workouts:', error);
+          
+          // Show empty state on error
+          workoutsContainer.innerHTML = `
+            <div class="no-workouts">
+              <h3>No workouts assigned yet</h3>
+              <p>Your trainer hasn't assigned any workouts yet. Check back later!</p>
+            </div>
+          `;
+        });
+    }
+
+    // Display workouts in the UI
+    function displayUserWorkouts(workouts) {
+      const workoutsContainer = document.getElementById('workoutsContainer');
+      
+      if (workouts.length === 0) {
+        workoutsContainer.innerHTML = `
+          <div class="no-workouts">
+            <h3>No workouts assigned yet</h3>
+            <p>Your trainer hasn't assigned any workouts yet. Check back later!</p>
+          </div>
+        `;
+        return;
+      }
+      
+      workoutsContainer.innerHTML = workouts.map(workout => `
+        <div class="workout-item">
+          <div class="workout-title">${workout.title || 'Untitled Workout'}</div>
+          <div class="workout-date">Assigned: ${workout.createdAt ? new Date(workout.createdAt.seconds * 1000).toLocaleDateString() : 'Unknown date'}</div>
+          <div class="workout-description">${workout.description || 'No description provided'}</div>
+          <div class="workout-actions">
+            <button class="view-workout-btn" onclick="viewWorkout('${workout.id}')">View Workout</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // View workout details
+    window.viewWorkout = function(workoutId) {
+      console.log('Viewing workout:', workoutId);
+      
+      // Store workout ID in sessionStorage for the viewWorkout.html page
+      sessionStorage.setItem('selectedWorkoutId', workoutId);
+      
+      // Navigate to viewWorkout.html
+      window.location.href = 'viewWorkout.html';
+    };
+
+    // Hamburger menu functionality
+    window.toggleHamburgerMenu = function() {
+      const hamburgerMenu = document.getElementById('hamburgerMenu');
+      if (hamburgerMenu) {
+        hamburgerMenu.classList.toggle('show');
+      }
+    };
+
+    window.closeHamburgerMenu = function() {
+      const hamburgerMenu = document.getElementById('hamburgerMenu');
+      if (hamburgerMenu) {
+        hamburgerMenu.classList.remove('show');
+      }
+    };
+
+    window.openSettingsFromHamburger = function() {
+      // Close hamburger menu first
+      closeHamburgerMenu();
+      // Then open settings
+      toggleSettings();
+    };
+
+    window.signOut = function() {
+      auth.signOut()
+        .then(() => {
+          window.location.href = "login.html";
+        })
+        .catch((error) => {
+          alert('Error signing out: ' + error.message);
+        });
+    };
+
+    // Settings functionality
+    window.toggleSettings = function() {
+      console.log('Settings button clicked');
+      const settingsMenu = document.getElementById('settingsMenu');
+      
+      if (settingsMenu) {
+        if (settingsMenu.style.display === 'block') {
+          // Hide the overlay
+          settingsMenu.style.display = 'none';
+          console.log('Hiding settings overlay');
+        } else {
+          // Show the overlay
+          settingsMenu.style.display = 'block';
+          console.log('Showing settings overlay');
+        }
+      } else {
+        console.error('Settings menu element not found!');
+      }
+    };
+
+
+    window.closeSettings = function() {
+      const settingsMenu = document.getElementById('settingsMenu');
+      if (settingsMenu) {
+        settingsMenu.style.display = 'none';
+      }
+    };
+
+
+    window.toggleHealthForm = function() {
+      const healthForm = document.getElementById('healthEditForm');
+      healthForm.classList.toggle('show');
+      
+      if (healthForm.classList.contains('show')) {
+        loadCurrentHealthData();
+      }
+    };
+
+    // Load current health data into the edit form
+    function loadCurrentHealthData() {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      firestore.collection('users').doc(user.uid).collection('healthQs').doc('data').get()
+        .then((doc) => {
+          if (doc.exists) {
+            const healthData = doc.data();
+            
+            // Populate form fields with current data
+            document.getElementById('editHeight').value = healthData.height || '';
+            document.getElementById('editWeight').value = healthData.weight || '';
+            document.getElementById('editAge').value = healthData.age || '';
+            document.getElementById('editGender').value = healthData.gender || '';
+            document.getElementById('editActivityLevel').value = healthData.activityLevel || '';
+            document.getElementById('editFitnessGoals').value = healthData.fitnessGoals || '';
+            document.getElementById('editMedicalConditions').value = healthData.medicalConditions || '';
+            document.getElementById('editInjuries').value = healthData.injuries || '';
+            document.getElementById('editExperience').value = healthData.experience || '';
+          }
+        })
+        .catch((error) => {
+          console.error('Error loading health data:', error);
+        });
+    }
+
+    // Handle health form submission
+    document.getElementById('healthEditForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = this.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Saving...';
+      
+      const formData = new FormData(this);
+      const healthData = {};
+      
+      // Convert form data to object
+      for (let [key, value] of formData.entries()) {
+        healthData[key] = value;
+      }
+      
+      // Add timestamp
+      healthData.completedAt = new Date().toISOString();
+      
+      // Get current user
+      const user = auth.currentUser;
+      if (!user) {
+        alert('You must be logged in to save changes.');
+        return;
+      }
+      
+      // Save health data to subcollection
+      firestore.collection('users').doc(user.uid).collection('healthQs').doc('data').set(healthData)
+        .then(() => {
+          alert('Health information updated successfully!');
+          closeSettings();
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Save Changes';
+        })
+        .catch((error) => {
+          console.error('Error saving health data:', error);
+          alert('Error saving health information. Please try again.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Save Changes';
+        });
+    });
+
+    // Close menus when clicking outside
+    window.onclick = function(event) {
+      const settingsMenu = document.getElementById('settingsMenu');
+      const hamburgerMenu = document.getElementById('hamburgerMenu');
+      
+      // Close settings overlay when clicking on the backdrop
+      if (settingsMenu && settingsMenu.style.display === 'block') {
+        if (event.target === settingsMenu) {
+          settingsMenu.style.display = 'none';
+        }
+      }
+      
+      // Close hamburger menu
+      if (hamburgerMenu && hamburgerMenu.classList.contains('show')) {
+        if (!event.target.closest('.hamburger-menu')) {
+          hamburgerMenu.classList.remove('show');
+        }
+      }
+    };
+    
+    // Handle health form submission
+    document.getElementById('healthForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = this.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Saving...';
+      
+      const formData = new FormData(this);
+      const healthData = {};
+      
+      // Convert form data to object
+      for (let [key, value] of formData.entries()) {
+        healthData[key] = value;
+      }
+      
+      // Add timestamp
+      healthData.completedAt = new Date().toISOString();
+      
+      // Get current user
+      const user = auth.currentUser;
+      if (!user) {
+        alert('You must be logged in to submit this form.');
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      // Save health data to healthQs collection
+      console.log('Saving health data:', healthData);
+      console.log('User UID:', user.uid);
+      
+      firestore.collection('users').doc(user.uid).collection('healthQs').doc('data').set(healthData)
+        .then(() => {
+          console.log('Health data saved successfully');
+          // Update user's formComplete status
+          return firestore.collection('users').doc(user.uid).update({
+            formComplete: 'yes'
+          });
+        })
+        .then(() => {
+          console.log('Form complete status updated successfully');
+          alert('Health questionnaire completed successfully!');
+          showMainDashboard();
+        })
+        .catch((error) => {
+          console.error('Error saving health data:', error);
+          console.error('Error code:', error.code);
+          console.error('Error message:', error.message);
+          alert('Error saving health questionnaire: ' + error.message);
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Complete Health Questionnaire';
+        });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Questionnaire</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔐</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Electrolize&family=Orbitron:wght@400;700;900&display=swap');
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Electrolize', sans-serif;
+    }
+    body{
+      min-height: 100vh;
+      width: 100%;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      color: #00ffff;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    .health-form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+      padding: 30px;
+    }
+    .health-form-container h1 {
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2rem;
+      font-family: 'Electrolize', sans-serif;
+      letter-spacing: 3px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      color: #00ffff;
+      text-shadow: 0 0 5px #00ffff;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      height: 50px;
+      padding: 0 15px;
+      font-size: 16px;
+      background: rgba(0, 255, 255, 0.1);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      border-radius: 8px;
+      outline: none;
+      color: #00ffff;
+      transition: all 0.3s ease;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: #00ffff;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+      background: rgba(0, 255, 255, 0.15);
+    }
+    .form-group input::placeholder {
+      color: rgba(0, 255, 255, 0.6);
+    }
+    .form-row {
+      display: flex;
+      gap: 15px;
+    }
+    .form-row .form-group {
+      flex: 1;
+    }
+    .submit-btn {
+      width: 100%;
+      height: 50px;
+      background: linear-gradient(45deg, #00ffff, #0080ff);
+      color: #000;
+      border: 1px solid #00ffff;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      margin-top: 20px;
+    }
+    .submit-btn:hover {
+      background: linear-gradient(45deg, #00cccc, #0066cc);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+      transform: translateY(-2px);
+    }
+    .submit-btn:disabled {
+      background: rgba(0, 255, 255, 0.2);
+      color: rgba(0, 255, 255, 0.5);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="health-form-container">
+    <h1>Health Questionnaire</h1>
+    <p style="color: rgba(0, 255, 255, 0.8); text-align: center; margin-bottom: 30px;">
+      Please complete this health questionnaire to help your trainer provide the best service.
+    </p>
+    
+    <form id="healthForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="height">Height (cm)</label>
+          <input type="number" id="height" name="height" placeholder="e.g., 175" required>
+        </div>
+        <div class="form-group">
+          <label for="weight">Weight (kg)</label>
+          <input type="number" id="weight" name="weight" placeholder="e.g., 70" required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age" placeholder="e.g., 25" required>
+        </div>
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender" required>
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+            <option value="prefer-not-to-say">Prefer not to say</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="activityLevel">Activity Level</label>
+        <select id="activityLevel" name="activityLevel" required>
+          <option value="">Select Activity Level</option>
+          <option value="sedentary">Sedentary (little to no exercise)</option>
+          <option value="lightly-active">Lightly Active (light exercise 1-3 days/week)</option>
+          <option value="moderately-active">Moderately Active (moderate exercise 3-5 days/week)</option>
+          <option value="very-active">Very Active (hard exercise 6-7 days/week)</option>
+          <option value="extremely-active">Extremely Active (very hard exercise, physical job)</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="fitnessGoals">Fitness Goals</label>
+        <select id="fitnessGoals" name="fitnessGoals" required>
+          <option value="">Select Fitness Goals</option>
+          <option value="weight-loss">Weight Loss</option>
+          <option value="muscle-gain">Muscle Gain</option>
+          <option value="general-fitness">General Fitness</option>
+          <option value="endurance">Endurance</option>
+          <option value="strength">Strength</option>
+          <option value="flexibility">Flexibility</option>
+          <option value="sport-specific">Sport Specific</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="medicalConditions">Medical Conditions (optional)</label>
+        <input type="text" id="medicalConditions" name="medicalConditions" placeholder="e.g., diabetes, hypertension, etc.">
+      </div>
+      
+      <div class="form-group">
+        <label for="injuries">Previous Injuries (optional)</label>
+        <input type="text" id="injuries" name="injuries" placeholder="e.g., knee injury, back pain, etc.">
+      </div>
+      
+      <div class="form-group">
+        <label for="experience">Fitness Experience</label>
+        <select id="experience" name="experience" required>
+          <option value="">Select Experience Level</option>
+          <option value="beginner">Beginner (0-6 months)</option>
+          <option value="intermediate">Intermediate (6 months - 2 years)</option>
+          <option value="advanced">Advanced (2+ years)</option>
+        </select>
+      </div>
+      
+      <button type="submit" class="submit-btn" id="submitBtn">Complete Health Questionnaire</button>
+    </form>
+  </div>
+  
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script type="module">
+    import { firebaseConfig } from "./config.js";
+    
+    const firebaseApp = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const firestore = firebase.firestore();
+    
+    // Check if user is logged in and is a client
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      // Check if user is a client
+      firestore.collection('users').doc(user.uid).get()
+        .then((doc) => {
+          if (doc.exists) {
+            const userData = doc.data();
+            if (userData.userType !== 'client') {
+              window.location.href = 'redirect.html';
+              return;
+            }
+            if (userData.formComplete === 'yes') {
+              window.location.href = 'client.html';
+              return;
+            }
+          }
+        })
+        .catch((error) => {
+          console.error('Error checking user data:', error);
+          window.location.href = 'login.html';
+        });
+    });
+    
+    // Handle form submission
+    document.getElementById('healthForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Saving...';
+      
+      const formData = new FormData(this);
+      const healthData = {};
+      
+      // Convert form data to object
+      for (let [key, value] of formData.entries()) {
+        healthData[key] = value;
+      }
+      
+      // Add timestamp
+      healthData.completedAt = new Date().toISOString();
+      
+      // Get current user
+      const user = auth.currentUser;
+      if (!user) {
+        alert('You must be logged in to submit this form.');
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      // Save health data to healthQs collection
+      console.log('Saving health data:', healthData);
+      console.log('User UID:', user.uid);
+      
+      firestore.collection('users').doc(user.uid).collection('healthQs').doc('data').set(healthData)
+        .then(() => {
+          console.log('Health data saved successfully');
+          // Update user's formComplete status
+          return firestore.collection('users').doc(user.uid).update({
+            formComplete: 'yes'
+          });
+        })
+        .then(() => {
+          console.log('Form complete status updated successfully');
+          alert('Health questionnaire completed successfully!');
+          window.location.href = 'client.html';
+        })
+        .catch((error) => {
+          console.error('Error saving health data:', error);
+          console.error('Error code:', error.code);
+          console.error('Error message:', error.message);
+          alert('Error saving health questionnaire: ' + error.message);
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Complete Health Questionnaire';
+        });
+    });
+  </script>
+</body>
+</html>
